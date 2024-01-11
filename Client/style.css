@@ -1,1 +1,69 @@
-*{box-sizing: border-box;margin: 0;padding: 0}
+#testa{
+    background-color: rgb(165, 196, 7);
+    height: 50px;
+    border: 1px solid blue;
+    margin: 10px;
+    border-radius:25px
+}
+
+#corpo {
+    width: 100%;
+    display: flex;
+ margin: auto;
+ padding: 1rem
+}
+
+#corpo h {
+    text-align: center
+}
+
+#corpo .card {
+    border: 1px solid red;
+    width: 100%;
+    margin-top: 1rem;
+    margin-left: 0;
+}
+
+.db {
+    border: 1px solid rgb(0, 0, 0);
+    width: 60%;
+    height: 90vh;
+    background-color: rgba(255, 228, 196, 0.801);
+}
+
+.selezionati {
+    border: 1px solid green;
+    width: 40%;
+    height: 90vh;
+    background-color: rgba(255, 228, 196, 0.801);
+}
+
+.products-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+    
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.product input[type="checkbox"] {
+    margin-right: 1rem;
+}
+
+.selected-products-container {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 1rem;
+    
+}
+.cross{
+    color: red;
+    margin: auto;
+    margin-left: 1rem;
+}
