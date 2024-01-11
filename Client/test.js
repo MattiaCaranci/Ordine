@@ -30,9 +30,12 @@ let orderTest = {
     },
   ],
   customer: {
-    firstName: "John",
-    lastName: "Doe",
+    firstname: "John",
+    lastname: "Doe",
+    age:33,
     email: "john.doe@example.com",
+    phone:"3333333",
+    locale:"locale",
     billingAddress: {
       street: "123 Main St",
       city: "Cityville",
@@ -108,7 +111,7 @@ function isEmpty(obj) {
 
 let button = document.querySelector("#confirm-order-btn");
 
-button.addEventListener("click", sendOrder());
+button.addEventListener("click", sendOrder);
 
 async function sendOrder() {
     const URLendpoint = "http://localhost:8083/api/riepOrder/arrivingOrder"
