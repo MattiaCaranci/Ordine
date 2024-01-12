@@ -23,18 +23,11 @@ const productJSON = [{
     "retailer": "retailer stranissimo"
 },
 {
-    "name": "prodotto2",
-    "variants": ["variant3", "variant4"],
+    "name": "prodotto3",
+    "variants": ["variant5", "variant6"],
     "description": "descript",
-    "price": 2.2,
-    "retailer": "retailer stranissimo"
-},
-{
-    "name": "prodotto2",
-    "variants": ["variant3", "variant4"],
-    "description": "descript",
-    "price": 2.2,
-    "retailer": "retailer stranissimo"
+    "price": 6.6,
+    "retailer": "retailer costoso"
 }];
 
 function mostraProdotto(): void {
@@ -66,7 +59,7 @@ function mostraProdotto(): void {
                 //bottone per aumentare la quantità
                 const increaseButton = document.createElement('button');
                 increaseButton.type = 'button';
-                increaseButton.style.borderRadius='40%';
+                increaseButton.style.borderRadius = '40%';
                 increaseButton.style.marginLeft = '10px';
                 increaseButton.classList.add('btn', 'btn-secondary');
                 increaseButton.textContent = '+';
@@ -75,7 +68,7 @@ function mostraProdotto(): void {
                 //bottone per diminuire la quantità
                 const decreaseButton = document.createElement('button');
                 decreaseButton.type = 'button';
-                decreaseButton.style.borderRadius='40%';
+                decreaseButton.style.borderRadius = '40%';
                 decreaseButton.style.marginLeft = '10px';
                 decreaseButton.classList.add('btn', 'btn-secondary');
                 decreaseButton.textContent = '-';
@@ -86,7 +79,7 @@ function mostraProdotto(): void {
                 button.type = 'button';
                 button.classList.add('btn', 'btn-primary');
                 button.style.marginLeft = '15px';
-                button.style.borderRadius='50%';
+                button.style.borderRadius = '50%';
                 button.textContent = 'Add';
                 productElement.appendChild(button);
 
@@ -104,104 +97,62 @@ function mostraProdotto(): void {
                     }
                 });
 
-                // button.addEventListener('click', () => {
-                //     const selectedProductElement = document.createElement('div');
-                //     selectedProductElement.classList.add('product');
-
-                //     const selectedLabel = document.createElement('label');
-
-                //     //variante selezionata
-                //     const selectedVariant = variantSelect.value;
-                //     selectedLabel.textContent = `${product.name} - ${selectedVariant} - Quantità: ${currentQuantity} - ${product.price * currentQuantity}$`;
-                //     selectedProductElement.appendChild(selectedLabel);
-
-                //     // X per rimuovere prodotto selezionato
-                //     const selectedCross = document.createElement('p');
-                //     selectedCross.classList.add('cross');
-                //     selectedCross.textContent = 'X';
-                //     selectedCross.style.fontSize = '20px';
-                //     selectedProductElement.appendChild(selectedCross);
-
-                //     selectedCross.onclick = () => {
-                //         selectedProductsContainer.removeChild(selectedProductElement);
-                //     };
-
-                //     currentQuantity = 1;
-                //     quantityElement.textContent = `Quantità: ${currentQuantity}`;
-
-                //     selectedProductsContainer.appendChild(selectedProductElement);
-                // });
-
-
-
-
 
                 function findExistingProductElement(variant: string): HTMLElement | null {
                     const existingElements = selectedProductsContainer?.getElementsByClassName('product');
                     for (const element of existingElements || []) {
-                      const dataVariant = element.getAttribute('data-variant');
-                      if (dataVariant === variant) {
-                        return element as HTMLElement;
-                      }
+                        const dataVariant = element.getAttribute('data-variant');
+                        if (dataVariant === variant) {
+                            return element as HTMLElement;
+                        }
                     }
                     return null;
-                  }
-                  
-                  button.addEventListener('click', () => {
+                }
+
+                button.addEventListener('click', () => {
                     const selectedProductElement = document.createElement('div');
                     selectedProductElement.classList.add('product');
-                  
+
                     const selectedLabel = document.createElement('label');
                     const selectedVariant = variantSelect.value;
                     const selectedText = `${product.name} - ${selectedVariant}`;
-                  
+
                     const existingProductElement = findExistingProductElement(selectedVariant);
-                  
+
                     if (existingProductElement) {
-                      // If there is already an element with the same variant, update the quantity
-                      const existingQuantity = parseInt(existingProductElement.getAttribute('data-quantity') || '1', 10);
-                      const newQuantity = existingQuantity + currentQuantity;
-                  
-                      existingProductElement.setAttribute('data-quantity', newQuantity.toString());
-                      const label = existingProductElement.querySelector('label');
-                      if (label) {
-                        label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${product.price * newQuantity}$`;
-                      }
+
+                        const existingQuantity = parseInt(existingProductElement.getAttribute('data-quantity') || '1', 10);
+                        const newQuantity = existingQuantity + currentQuantity;
+
+                        existingProductElement.setAttribute('data-quantity', newQuantity.toString());
+                        const label = existingProductElement.querySelector('label');
+                        if (label) {
+                            label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${Math.floor(product.price * newQuantity)}$`;
+                        }
                     } else {
-                      // If it doesn't exist, create a new element
-                      selectedLabel.textContent = `${selectedText} - Quantità: ${currentQuantity} - ${product.price * currentQuantity}$`;
-                      selectedProductElement.appendChild(selectedLabel);
-                  
-                      const selectedCross = document.createElement('p');
-                      selectedCross.classList.add('cross');
-                      selectedCross.textContent = 'X';
-                      selectedProductElement.appendChild(selectedCross);
-                  
-                      selectedCross.onclick = () => {
-                        selectedProductsContainer.removeChild(selectedProductElement);
-                      };
-                  
-                      selectedProductElement.setAttribute('data-quantity', currentQuantity.toString());
-                      selectedProductElement.setAttribute('data-variant', selectedVariant);
-                      selectedProductsContainer.appendChild(selectedProductElement);
+
+                        selectedLabel.textContent = `${selectedText} - Quantità: ${currentQuantity} - ${Math.floor(product.price * currentQuantity)}$`;
+                        selectedProductElement.appendChild(selectedLabel);
+
+                        const selectedCross = document.createElement('p');
+                        selectedCross.classList.add('cross');
+                        selectedCross.textContent = 'X';
+                        selectedProductElement.appendChild(selectedCross);
+
+                        selectedCross.onclick = () => {
+                            selectedProductsContainer.removeChild(selectedProductElement);
+                        };
+
+                        selectedProductElement.setAttribute('data-quantity', currentQuantity.toString());
+                        selectedProductElement.setAttribute('data-variant', selectedVariant);
+                        selectedProductsContainer.appendChild(selectedProductElement);
                     }
-                  
-                    // Always reset the selected quantity to 1 after processing the click event
+
+
                     currentQuantity = 1;
-                    quantityElement.textContent = `Quantità: ${currentQuantity}`;
-                  });
-                  
-                  
+                    quantityElement.textContent = `Quantità: ${Math.floor(currentQuantity)}`;
 
-
-
-
-
-
-
-
-
-
+                });
 
                 productsContainer.appendChild(productElement);
             }
@@ -228,42 +179,14 @@ function createSelect(options: string[]): HTMLSelectElement {
 mostraProdotto();
 
 
+var prodotto= 
+
+
+const next=document.getElementById('next');
+next?.addEventListener('click',() => {
+    location.replace('prova.html');
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//checkbox che se cliccata stampa l prodotto
-// checkbox.addEventListener('change', (event) => {
-//     if ((event.target as HTMLInputElement).checked) {
-//         const selectedProductElement = document.createElement('div');
-//         selectedProductElement.classList.add('product');
-//         const selectedLabel = document.createElement('label');
-//         selectedLabel.textContent = product.name + " - " + product.price + "$";
-//         selectedProductElement.appendChild(selectedLabel);
-//         const selectedCross = document.createElement('p');
-//         selectedCross.classList.add('cross');
-//         selectedCross.textContent = "X";
-//         selectedProductElement.appendChild(selectedCross);
-//         selectedCross.onclick = (e) => {
-//             selectedProductsContainer?.removeChild(selectedProductElement);
-//             checkbox.checked = false;
-//         }
-//         selectedProductsContainer?.appendChild(selectedProductElement);
-//     } else {
-//         selectedProductsContainer?.querySelector(`label[for="${checkbox.id}"]`)?.parentElement?.remove();
-//     }
-// });
+})
 
