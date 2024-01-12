@@ -21,6 +21,20 @@ const productJSON = [{
     "description": "descript",
     "price": 2.2,
     "retailer": "retailer stranissimo"
+},
+{
+    "name": "prodotto2",
+    "variants": ["variant3", "variant4"],
+    "description": "descript",
+    "price": 2.2,
+    "retailer": "retailer stranissimo"
+},
+{
+    "name": "prodotto2",
+    "variants": ["variant3", "variant4"],
+    "description": "descript",
+    "price": 2.2,
+    "retailer": "retailer stranissimo"
 }];
 
 function mostraProdotto(): void {
@@ -90,33 +104,104 @@ function mostraProdotto(): void {
                     }
                 });
 
-                button.addEventListener('click', () => {
+                // button.addEventListener('click', () => {
+                //     const selectedProductElement = document.createElement('div');
+                //     selectedProductElement.classList.add('product');
+
+                //     const selectedLabel = document.createElement('label');
+
+                //     //variante selezionata
+                //     const selectedVariant = variantSelect.value;
+                //     selectedLabel.textContent = `${product.name} - ${selectedVariant} - Quantità: ${currentQuantity} - ${product.price * currentQuantity}$`;
+                //     selectedProductElement.appendChild(selectedLabel);
+
+                //     // X per rimuovere prodotto selezionato
+                //     const selectedCross = document.createElement('p');
+                //     selectedCross.classList.add('cross');
+                //     selectedCross.textContent = 'X';
+                //     selectedCross.style.fontSize = '20px';
+                //     selectedProductElement.appendChild(selectedCross);
+
+                //     selectedCross.onclick = () => {
+                //         selectedProductsContainer.removeChild(selectedProductElement);
+                //     };
+
+                //     currentQuantity = 1;
+                //     quantityElement.textContent = `Quantità: ${currentQuantity}`;
+
+                //     selectedProductsContainer.appendChild(selectedProductElement);
+                // });
+
+
+
+
+
+                function findExistingProductElement(variant: string): HTMLElement | null {
+                    const existingElements = selectedProductsContainer?.getElementsByClassName('product');
+                    for (const element of existingElements || []) {
+                      const dataVariant = element.getAttribute('data-variant');
+                      if (dataVariant === variant) {
+                        return element as HTMLElement;
+                      }
+                    }
+                    return null;
+                  }
+                  
+                  button.addEventListener('click', () => {
                     const selectedProductElement = document.createElement('div');
                     selectedProductElement.classList.add('product');
-
+                  
                     const selectedLabel = document.createElement('label');
-
-                    //variante selezionata
                     const selectedVariant = variantSelect.value;
-                    selectedLabel.textContent = `${product.name} - ${selectedVariant} - Quantità: ${currentQuantity} - ${product.price * currentQuantity}$`;
-                    selectedProductElement.appendChild(selectedLabel);
-
-                    // X per rimuovere prodotto selezionato
-                    const selectedCross = document.createElement('p');
-                    selectedCross.classList.add('cross');
-                    selectedCross.textContent = 'X';
-                    selectedCross.style.fontSize = '20px';
-                    selectedProductElement.appendChild(selectedCross);
-
-                    selectedCross.onclick = () => {
+                    const selectedText = `${product.name} - ${selectedVariant}`;
+                  
+                    const existingProductElement = findExistingProductElement(selectedVariant);
+                  
+                    if (existingProductElement) {
+                      // If there is already an element with the same variant, update the quantity
+                      const existingQuantity = parseInt(existingProductElement.getAttribute('data-quantity') || '1', 10);
+                      const newQuantity = existingQuantity + currentQuantity;
+                  
+                      existingProductElement.setAttribute('data-quantity', newQuantity.toString());
+                      const label = existingProductElement.querySelector('label');
+                      if (label) {
+                        label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${product.price * newQuantity}$`;
+                      }
+                    } else {
+                      // If it doesn't exist, create a new element
+                      selectedLabel.textContent = `${selectedText} - Quantità: ${currentQuantity} - ${product.price * currentQuantity}$`;
+                      selectedProductElement.appendChild(selectedLabel);
+                  
+                      const selectedCross = document.createElement('p');
+                      selectedCross.classList.add('cross');
+                      selectedCross.textContent = 'X';
+                      selectedProductElement.appendChild(selectedCross);
+                  
+                      selectedCross.onclick = () => {
                         selectedProductsContainer.removeChild(selectedProductElement);
-                    };
-
+                      };
+                  
+                      selectedProductElement.setAttribute('data-quantity', currentQuantity.toString());
+                      selectedProductElement.setAttribute('data-variant', selectedVariant);
+                      selectedProductsContainer.appendChild(selectedProductElement);
+                    }
+                  
+                    // Always reset the selected quantity to 1 after processing the click event
                     currentQuantity = 1;
                     quantityElement.textContent = `Quantità: ${currentQuantity}`;
+                  });
+                  
+                  
 
-                    selectedProductsContainer.appendChild(selectedProductElement);
-                });
+
+
+
+
+
+
+
+
+
 
                 productsContainer.appendChild(productElement);
             }
@@ -141,6 +226,20 @@ function createSelect(options: string[]): HTMLSelectElement {
 }
 
 mostraProdotto();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
