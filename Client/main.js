@@ -1,45 +1,68 @@
-"use strict";
-const productJSON = [{
-        "name": "prodotto1",
-        "variants": ["variant1", "variant2"],
-        "description": "descript",
-        "price": 2.3,
-        "retailer": "retailer strano"
+let productsssstest = [
+    {
+        code: 11,
+        name: "hajsdkhasdkja",
+        variants: ["variant1", "variant2"],
+        description: "descript",
+        price: 12.3,
+        retailer: "retailer strano",
     },
     {
-        "name": "prodotto2",
-        "variants": ["variant3", "variant4"],
-        "description": "descript",
-        "price": 2.2,
-        "retailer": "retailer stranissimo"
+        code: 12,
+        name: "prodakjshdkuct2",
+        variants: ["variant3", "variant4"],
+        description: "descript",
+        price: 2.2,
+        retailer: "retailer stranissimo",
     },
-    {
-        "name": "prodotto3",
-        "variants": ["variant5", "variant6"],
-        "description": "descript",
-        "price": 6.6,
-        "retailer": "retailer costoso"
-    }];
+];
+let ordervuoto = {
+    totalAmount: 0,
+    orderLineItems: [],
+    customer: {
+        firstname: "",
+        lastname: "",
+        age: 0,
+        email: "",
+        phone: "",
+        locale: "",
+        billingAddress: {
+            street: "",
+            city: "",
+            state: "",
+            postalCode: 0
+        }
+    }
+};
+setOrder(productsssstest);
+console.log(ordervuoto.orderLineItems);
+// console.log(ordervuoto.orderLineItems[0].product+"gvhgcvhgc");
+var counter = 0;
 function mostraProdotto() {
     try {
         const productsContainer = document.getElementById('products-container');
         const selectedProductsContainer = document.getElementById('selected-products-container');
-        if (productJSON.length > 0 && productsContainer && selectedProductsContainer) {
-            for (const product of productJSON) {
+        if (ordervuoto.orderLineItems.length > 0 && productsContainer && selectedProductsContainer) {
+            for (const lineItem of ordervuoto.orderLineItems) {
+                //div 
                 const productElement = document.createElement('div');
                 productElement.classList.add('product');
+                productElement.id = `${counter}`;
+                // console.log(productElement.id);
+                console.log(ordervuoto.orderLineItems[counter].product);
+                counter++;
                 //casella prodotto
                 const label = document.createElement('label');
-                label.textContent = product.name;
+                label.textContent = lineItem.product.name;
                 label.style.marginRight = '10px';
                 productElement.appendChild(label);
                 //pickList per scegliere la variante del prodotto
-                const variantSelect = createSelect(product.variants);
+                const variantSelect = createSelect(lineItem.product.variants);
                 variantSelect.style.marginRight = '10px';
                 productElement.appendChild(variantSelect);
                 //selezione della quantità
                 const quantityElement = document.createElement('span');
-                quantityElement.textContent = 'Quantità: 1'; // Imposta un valore predefinito
+                quantityElement.textContent = `Quantità: 1`;
                 productElement.appendChild(quantityElement);
                 //bottone per aumentare la quantità
                 const increaseButton = document.createElement('button');
@@ -91,24 +114,38 @@ function mostraProdotto() {
                     selectedProductElement.classList.add('product');
                     const selectedLabel = document.createElement('label');
                     const selectedVariant = variantSelect.value;
-                    const selectedText = `${product.name} - ${selectedVariant}`;
+                    const selectedText = `${lineItem.product.name} - ${selectedVariant}`;
+                    //id dei prodotti inseriti
+                    const pscounterClass = ` psclass: ${productElement.id}`;
+                    // selectedProductElement.classList.add(pscounterClass);
                     const existingProductElement = findExistingProductElement(selectedVariant);
                     if (existingProductElement) {
                         const existingQuantity = parseInt(existingProductElement.getAttribute('data-quantity') || '1', 10);
                         const newQuantity = existingQuantity + currentQuantity;
                         existingProductElement.setAttribute('data-quantity', newQuantity.toString());
                         const label = existingProductElement.querySelector('label');
+                        // label!.classList.add(pscounterClass);
                         if (label) {
-                            label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${Math.floor(product.price * newQuantity)}$`;
+                            //prodotti selezionati se ce ne sta più di uno
+                            let tam = lineItem.product.price * newQuantity;
+                            label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${Math.floor(tam)}$ - ${pscounterClass} `;
+                            ordervuoto.totalAmount = tam;
+                            ordervuoto.orderLineItems[parseInt(productElement.id)].quantity = newQuantity;
+                            ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tam);
                         }
                     }
                     else {
-                        selectedLabel.textContent = `${selectedText} - Quantità: ${currentQuantity} - ${Math.floor(product.price * currentQuantity)}$`;
+                        //prodotti selezionati con uno solo
+                        let tcm = lineItem.product.price * currentQuantity;
+                        selectedLabel.textContent = `${selectedText} - Quantità: ${currentQuantity} - ${Math.floor(tcm)}$ - ${pscounterClass}`;
                         selectedProductElement.appendChild(selectedLabel);
+                        ordervuoto.totalAmount = tcm;
+                        //X rossa
                         const selectedCross = document.createElement('p');
                         selectedCross.classList.add('cross');
                         selectedCross.textContent = 'X';
                         selectedProductElement.appendChild(selectedCross);
+                        //rimuovi prodotto
                         selectedCross.onclick = () => {
                             selectedProductsContainer.removeChild(selectedProductElement);
                         };
@@ -141,9 +178,91 @@ function createSelect(options) {
     }
     return selectElement;
 }
+const nextButton = document.getElementById('next');
+const confirmModal = document.getElementById('modale');
+const confirmModalContent = document.getElementById('testom');
+const confirmModalConfirmBtn = document.getElementById('confirmModalConfirmBtn');
+const confirmModalCancelBtn = document.getElementById('confirmModalCancelBtn');
+//dati da inviare
+if (nextButton) {
+    nextButton.addEventListener('click', () => {
+        //modale
+        confirmModalContent.textContent = `Confermi l'invio dell'ordine?`;
+        confirmModal.style.display = 'block';
+    });
+    // Chiusura modale con click su annulla
+    confirmModalCancelBtn.addEventListener('click', () => {
+        confirmModal.style.display = 'none';
+    });
+    //  annulla conferma modale
+    confirmModalCancelBtn.addEventListener('click', () => {
+        confirmModal.style.display = 'none';
+    });
+    // Conferma e passa alla pagina successiva quando l'utente clicca su "Conferma" nel modale di conferma
+    confirmModalConfirmBtn.addEventListener('click', () => {
+        // window.location.href = 'prova.html';
+        console.log(ordervuoto);
+    });
+}
 mostraProdotto();
-var prodotto = ;
-const next = document.getElementById('next');
-next === null || next === void 0 ? void 0 : next.addEventListener('click', () => {
-    location.replace('prova.html');
-});
+//popolare un order
+function setOrder(productsssstest) {
+    productsssstest.forEach(prodotto => {
+        ordervuoto.orderLineItems.push({
+            product: prodotto,
+            amount: 0,
+            quantity: 0
+        });
+    });
+    console.log("order: " + ordervuoto);
+}
+export {};
+// let orderTest: Order = {
+//     totalAmount: 150.5,
+//     orderLineItems: [
+//         {
+//             product: {
+//                 code: 1,
+//                 name: "product1",
+//                 variants: ["variant1", "variant2"],
+//                 description: "descript",
+//                 price: 12.3,
+//                 retailer: "retailer strano",
+//             },
+//             quantity: 2,
+//             amount: 0,
+//         },
+//         {
+//             product: {
+//                 code: 2,
+//                 name: "product2",
+//                 variants: ["variant3", "variant4"],
+//                 description: "descript",
+//                 price: 2.2,
+//                 retailer: "retailer stranissimo",
+//             },
+//             quantity: 1,
+//             amount: 0,
+//         },
+//     ],
+//     customer: {
+//         firstname: "John",
+//         lastname: "Doe",
+//         age: 33,
+//         email: "john.doe@example.com",
+//         phone: "3333333",
+//         locale: "locale",
+//         billingAddress: {
+//             street: "123 Main St",
+//             city: "Cityville",
+//             state: "CA",
+//             postalCode: 12345,
+//         },
+//         shippingAddress: {
+//             street: "456 Broad St",
+//             city: "Townsville",
+//             state: "CA",
+//             postalCode: 67890,
+//         },
+//     },
+// };
