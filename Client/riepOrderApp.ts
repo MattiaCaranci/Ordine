@@ -177,4 +177,6 @@ function download(data: string) {
 // download(`"prodTotal","totalAmount","firstname","lastname","age","email","phone","locale","street","city","state","postalCode"
 // 500,150.5,"John","Doe",33,"john.doe@example.com","3333333","locale","123 Main St","Cityville","CA",12345`)
 
+console.log("bello");
+
 download(toCsv(objToCsv(orderTest)));
