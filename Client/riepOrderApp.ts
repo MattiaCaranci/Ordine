@@ -1,4 +1,4 @@
-import { Order } from "./commonClasses/classes";
+import { Order, RiepilogoCsv } from "./commonClasses/classes";
 // import axios from "./node_modules/axios/index";
 let orderTest: Order = {
   totalAmount: 150.5,
@@ -52,7 +52,7 @@ let orderTest: Order = {
 
 function getOLI() {
   const prodTitle = document.querySelector("#prod-title");
-  
+
   orderTest.orderLineItems.forEach((p) => {
     let product = p.product;
     let pRow = `
@@ -60,7 +60,7 @@ function getOLI() {
     `;
     prodTitle!.insertAdjacentHTML("afterend", pRow);
   });
-  
+
   const addTitle = document.querySelector("#add-title");
 }
 getOLI();
@@ -104,7 +104,7 @@ function isEmpty(obj: any) {
       return false;
     }
   }
-  
+
   return true;
 }
 
@@ -117,6 +117,42 @@ async function sendOrder() {
   let res = await axios.post(URLendpoint, {
     ...orderTest,
   });
-  
+
   console.log(res);
+}
+
+function jsonToCsv(obj: Order) {
+  let riepToCsv: RiepilogoCsv = {
+    prodTotal: getTotalProd(),
+    totalAmount: getTotalAmount(), //metodo total amount
+    firstname: orderTest.customer.firstname,
+    lastname: orderTest.customer.lastname,
+    age: orderTest.customer.age,
+    email: orderTest.customer.email,
+    phone: orderTest.customer.phone,
+    locale: orderTest.customer.locale,
+    street: orderTest.customer.billingAddress.street,
+    city: orderTest.customer.billingAddress.city,
+    state: orderTest.customer.billingAddress.state,
+    postalCode: orderTest.customer.billingAddress.postalCode,
+  };
+  console.log(riepToCsv);
+}
+
+function getTotalProd(): number {
+  let total: number = 0;
+  orderTest.orderLineItems.forEach((p) => {
+    total += p.quantity;
+  });
+  return total;
+}
+
+
+// il total amount è da calcolare o è già quello nel orderlineitems?
+function getTotalAmount(): number {
+  let total: number =0;
+  orderTest.orderLineItems.forEach((p)=>{
+    total+=p.amount*p.quantity
+  })
+  return total
 }

@@ -39,3 +39,21 @@ export interface OrderLineItems {
   amount: number;
   quantity: number;
 }
+
+export interface RiepilogoCsv{
+  prodTotal: number;
+  totalAmount: number;
+  customerId?: number;
+  firstname: string;
+  lastname: string;
+  age: number;
+  email: string;
+  phone: string;
+  locale: string;
+  street: string;
+  city: string;
+  state: string;
+  postalCode: number;
+
+
+}
