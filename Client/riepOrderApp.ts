@@ -113,13 +113,14 @@ let button = document.querySelector("#confirm-order-btn");
 button!.addEventListener("click", sendOrder);
 
 async function sendOrder() {
-  const URLendpoint = "http://localhost:8083/api/riepOrder/arrivingOrder";
+  const URLendpoint = "http://localhost:8083/api/riepOrder/arrivingOrder";  
   let res = await axios.post(URLendpoint, {
     ...orderTest,
   });
 
   console.log(res);
 }
+
 
 function objToCsv(obj: Order): RiepilogoCsv {
   let riepToCsv: RiepilogoCsv = {
