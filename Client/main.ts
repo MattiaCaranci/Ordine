@@ -62,7 +62,6 @@ function mostraProdotto(): void {
                 const productElement = document.createElement('div');
                 productElement.classList.add('product');
                 productElement.id = `${counter}`;
-
                 // console.log(productElement.id);
                 console.log(ordervuoto.orderLineItems[counter].product);
                 counter++
@@ -147,7 +146,7 @@ function mostraProdotto(): void {
                     const selectedVariant = variantSelect.value;
                     const selectedText = `${lineItem.product.name} - ${selectedVariant}`
                     //id dei prodotti inseriti
-                    const pscounterClass = ` psclass: ${productElement.id}`;
+                    const pscounterClass = ` psclass-${productElement.id}`;
 
                     // selectedProductElement.classList.add(pscounterClass);
                     
@@ -167,6 +166,8 @@ function mostraProdotto(): void {
                             let tam: number = lineItem.product.price * newQuantity
                             label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${Math.floor(tam)}$ - ${pscounterClass} `;
                             ordervuoto.totalAmount = tam
+                            console.log(productElement.id);
+                            
                             ordervuoto.orderLineItems[parseInt(productElement.id)].quantity = newQuantity;
                             ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tam);
                         }
@@ -182,6 +183,10 @@ function mostraProdotto(): void {
                         selectedCross.classList.add('cross');
                         selectedCross.textContent = 'X';
                         selectedProductElement.appendChild(selectedCross);
+
+
+                        ordervuoto.orderLineItems[parseInt(productElement.id)].quantity = currentQuantity;
+                            ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tcm);
 
                         //rimuovi prodotto
                         selectedCross.onclick = () => {
