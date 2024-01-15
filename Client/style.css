@@ -7,14 +7,18 @@ body {
     display:flex;
     justify-content: center;
     align-items: center;
+
+    font-family: 'Helvetica';
 }
 
 
 .shipping-box {
-    border: 12px ridge gray;
-    background: rgb(145, 132, 231);
+    border-radius: 15px;
+    background: rgb(57, 27, 255);
     width: 80vw;
     height: 500px;
+
+    margin-top: 25px;
 
     display:grid;
 
@@ -28,8 +32,10 @@ body {
 }
 
 .shipping-box header {
+    border-radius: 15px;
+
     color: white;
-    background: linear-gradient(0.25turn, blue, orange, white);
+    background: rgb(0, 0, 114);
     display: flex;
     height: 10vh;
     width: auto;
@@ -44,11 +50,17 @@ body {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     color:white;
+    gap: 20px;
 
     justify-content: center;
     align-items: center;
 }
 
-#1{
-    background: red;
+.a{
+    grid-column: 1/1;
+    grid-row: 1/2;
+}
+.b{
+    grid-column: 2/2;
+    grid-row: 1/1;
 }
