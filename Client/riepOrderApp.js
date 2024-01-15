@@ -110,9 +110,9 @@ async function sendOrder() {
     });
     console.log(res);
 }
-function jsonToCsv(obj) {
+function objToCsv(obj) {
     let riepToCsv = {
-        prodTotal: getTotalProd(),
+        prodTotal: getTotalQnt(),
         totalAmount: getTotalAmount(), //metodo total amount
         firstname: orderTest.customer.firstname,
         lastname: orderTest.customer.lastname,
@@ -126,20 +126,39 @@ function jsonToCsv(obj) {
         postalCode: orderTest.customer.billingAddress.postalCode,
     };
     console.log(riepToCsv);
+    return riepToCsv;
 }
-function getTotalProd() {
+function getTotalQnt() {
     let total = 0;
-    orderTest.orderLineItems.forEach((p) => {
-        total += p.quantity;
+    orderTest.orderLineItems.forEach((oli) => {
+        total += oli.quantity;
     });
     return total;
 }
-// il total amount è da calcolare o è già quello nel orderlineitems?
 function getTotalAmount() {
     let total = 0;
-    orderTest.orderLineItems.forEach((p) => {
-        total += p.amount * p.quantity;
+    orderTest.orderLineItems.forEach((oli) => {
+        total += oli.amount;
     });
     return total;
 }
+function toCsv(objToCsv) {
+    let res = "";
+    res += Object.keys(objToCsv).join(",");
+    console.log(res);
+    res += ",";
+    res += Object.values(objToCsv).join(",");
+    console.log(res);
+    return res;
+}
+function download(data) {
+    const blob = new Blob([data], { type: 'text/csv' });
+    const click = window.URL.createObjectURL(blob);
+    const clickDownload = `<a href="${click}" download="riepilog.csv">scaricami bello</a>`;
+    let button = document.querySelector("#confirm-order-btn");
+    button.insertAdjacentHTML("beforebegin", clickDownload);
+}
+// download(`"prodTotal","totalAmount","firstname","lastname","age","email","phone","locale","street","city","state","postalCode"
+// 500,150.5,"John","Doe",33,"john.doe@example.com","3333333","locale","123 Main St","Cityville","CA",12345`)
+download(toCsv(objToCsv(orderTest)));
 export {};
