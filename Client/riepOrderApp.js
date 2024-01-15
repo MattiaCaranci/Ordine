@@ -152,7 +152,7 @@ function toCsv(objToCsv) {
     return res;
 }
 function download(data) {
-    const blob = new Blob([data], { type: 'text/csv' });
+    const blob = new Blob([data], { type: "text/csv" });
     const click = window.URL.createObjectURL(blob);
     const clickDownload = `<a href="${click}" download="riepilog.csv">scaricami bello</a>`;
     let button = document.querySelector("#confirm-order-btn");

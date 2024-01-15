@@ -121,7 +121,7 @@ async function sendOrder() {
   console.log(res);
 }
 
-function objToCsv(obj: Order):RiepilogoCsv {
+function objToCsv(obj: Order): RiepilogoCsv {
   let riepToCsv: RiepilogoCsv = {
     prodTotal: getTotalQnt(),
     totalAmount: getTotalAmount(), //metodo total amount
@@ -148,33 +148,32 @@ function getTotalQnt(): number {
   return total;
 }
 
-
 function getTotalAmount(): number {
-  let total: number =0;
-  orderTest.orderLineItems.forEach((oli)=>{
-    total+=oli.amount
-  })
-  return total
+  let total: number = 0;
+  orderTest.orderLineItems.forEach((oli) => {
+    total += oli.amount;
+  });
+  return total;
 }
 
-function toCsv(objToCsv:RiepilogoCsv):string{
-    let res:string = "";
-    res+=Object.keys(objToCsv).join(",")
-    console.log(res);
-    res+=","
-    res+=Object.values(objToCsv).join(",")
-    console.log(res);
-return res
+function toCsv(objToCsv: RiepilogoCsv): string {
+  let res: string = "";
+  res += Object.keys(objToCsv).join(",");
+  console.log(res);
+  res += ",";
+  res += Object.values(objToCsv).join(",");
+  console.log(res);
+  return res;
 }
 
-function download(data:string) { 
-    const blob = new Blob([data], { type: 'text/csv' }); 
-    const click = window.URL.createObjectURL(blob) 
-    const clickDownload = `<a href="${click}" download="riepilog.csv">scaricami bello</a>`
-    let button = document.querySelector("#confirm-order-btn");
-    button!.insertAdjacentHTML("beforebegin",clickDownload)
-} 
+function download(data: string) {
+  const blob = new Blob([data], { type: "text/csv" });
+  const click = window.URL.createObjectURL(blob);
+  const clickDownload = `<a href="${click}" download="riepilog.csv">scaricami bello</a>`;
+  let button = document.querySelector("#confirm-order-btn");
+  button!.insertAdjacentHTML("beforebegin", clickDownload);
+}
 // download(`"prodTotal","totalAmount","firstname","lastname","age","email","phone","locale","street","city","state","postalCode"
 // 500,150.5,"John","Doe",33,"john.doe@example.com","3333333","locale","123 Main St","Cityville","CA",12345`)
 
-download(toCsv(objToCsv(orderTest)))
+download(toCsv(objToCsv(orderTest)));
