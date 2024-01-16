@@ -53,11 +53,22 @@ function getOLI() {
     orderTest.orderLineItems.forEach((p) => {
         let product = p.product;
         let pRow = `
-    <p class="card-text">${product.name} price ${product.price} description ${product.description}</p>
+    <div class="card-text d-flex">
+    <span>${product.name}</span>
+    <span class="d-inline-flex col">price ${product.price}</span>
+    <span class="d-inline-flex col">x ${p.quantity}</span>
+    <span class="d-inline-flex col">${p.amount}$</span>    
+    </div>
     `;
         prodTitle.insertAdjacentHTML("afterend", pRow);
     });
-    const addTitle = document.querySelector("#add-title");
+    let totalAmount = `
+  <div class="d-flex">
+  <h5 class="text-uppercase d-inline-flex col">totale </h5>
+  <h5 class="d-inline-flex mx-5 col">${orderTest.totalAmount}$</h5>
+  </div>`;
+    const addTitle = document.querySelector("#shipAdd-title");
+    addTitle.insertAdjacentHTML("beforebegin", totalAmount);
 }
 getOLI();
 function getAdds() {
@@ -71,8 +82,10 @@ function getAdds() {
         Object.entries(billingAdd).forEach((e) => {
             billingInfo += `<p class="card-text">${e[0]}: ${e[1]}</p>`;
             pRow = `
+      <div class="d-flex">
       <p class="text-danger-emphasis fw-semibold">billing and shipping addresses</p>
       ${billingInfo}
+      </div>
       `;
         });
     }
@@ -84,10 +97,16 @@ function getAdds() {
             shippingInfo += `<p class="card-text">${e[0]}: ${e[1]}</p>`;
         });
         pRow = `
-    <p class="text-danger-emphasis fw-semibold">billing addresses</p>
+    <div class="d-flex flex-row">
+    <section class="col">
+    <p class="text-danger-emphasis fw-semibold">Billing addresses</p>
     ${billingInfo}
-    <p class="text-danger-emphasis fw-semibold">shipping addresses</p>
+    </section>
+    <section class="col">
+    <p class="text-danger-emphasis fw-semibold">Shipping addresses</p>
     ${shippingInfo}
+    </section>
+    </div>
     `;
     }
     addTitle.insertAdjacentHTML("afterend", pRow);
