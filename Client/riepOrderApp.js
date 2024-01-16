@@ -54,7 +54,7 @@ function getOLI() {
         let product = p.product;
         let pRow = `
     <div class="card-text d-flex">
-    <span>${product.name}</span>
+    <span class="d-inline-flex col>${product.name}</span>
     <span class="d-inline-flex col">price ${product.price}</span>
     <span class="d-inline-flex col">x ${p.quantity}</span>
     <span class="d-inline-flex col">${p.amount}$</span>    
@@ -63,7 +63,7 @@ function getOLI() {
         prodTitle.insertAdjacentHTML("afterend", pRow);
     });
     let totalAmount = `
-  <div class="d-flex">
+  <div class="d-flex mt-2">
   <h6 class="text-uppercase d-inline-flex col">totale </h6>
   <h6 class="d-inline-flex mx-5 col">${orderTest.totalAmount}$</h6>
   </div>`;
@@ -80,10 +80,11 @@ function getAdds() {
     let shippingInfo = "";
     if (isEmpty(billingAdd)) {
         Object.entries(billingAdd).forEach((e) => {
-            billingInfo += `<p class="card-text">${e[0]}: ${e[1]}</p>`;
+            billingInfo += `<span class="card-text">${e[0]}: </span>
+      <span class="card-text">${e[1]}</span>`;
             pRow = `
       <div class="d-flex">
-      <p class="text-danger-emphasis fw-semibold">billing and shipping addresses</p>
+      <h5 class="text-danger-emphasis fw-semibold">billing and shipping addresses</h5>
       ${billingInfo}
       </div>
       `;
