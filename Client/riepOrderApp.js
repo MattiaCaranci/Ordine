@@ -64,8 +64,8 @@ function getOLI() {
     });
     let totalAmount = `
   <div class="d-flex">
-  <h5 class="text-uppercase d-inline-flex col">totale </h5>
-  <h5 class="d-inline-flex mx-5 col">${orderTest.totalAmount}$</h5>
+  <h6 class="text-uppercase d-inline-flex col">totale </h6>
+  <h6 class="d-inline-flex mx-5 col">${orderTest.totalAmount}$</h6>
   </div>`;
     const addTitle = document.querySelector("#shipAdd-title");
     addTitle.insertAdjacentHTML("beforebegin", totalAmount);
@@ -173,7 +173,7 @@ function toCsv(objToCsv) {
 function download(data) {
     const blob = new Blob([data], { type: "text/csv" });
     const click = window.URL.createObjectURL(blob);
-    const clickDownload = `<a href="${click}" download="riepilog.csv">scaricami bello</a>`;
+    const clickDownload = `<a href="${click}" class="mx-3" download="riepilog.csv">scaricami bello</a>`;
     let button = document.querySelector("#confirm-order-btn");
     button.insertAdjacentHTML("beforebegin", clickDownload);
 }
