@@ -109,6 +109,7 @@ function mostraProdotto() {
                     }
                     return null;
                 }
+                //bottone ADD per aggiungere prodotti
                 button.addEventListener('click', () => {
                     const selectedProductElement = document.createElement('div');
                     selectedProductElement.classList.add('product');
@@ -158,6 +159,12 @@ function mostraProdotto() {
                     }
                     currentQuantity = 1;
                     quantityElement.textContent = `Quantità: ${Math.floor(currentQuantity)}`;
+                    //logica variant
+                    for (let index = 0; index < productsssstest.length; index++) {
+                        const v = document.querySelectorAll(`psclass-${index}`);
+                        v.forEach(element => {
+                        });
+                    }
                 });
                 productsContainer.appendChild(productElement);
             }

@@ -123,12 +123,27 @@ function mostraProdotto(): void {
                     }
                 });
 
-                function findExistingProductElement(variant: string): HTMLElement | null {
-                    const existingElements = selectedProductsContainer?.getElementsByClassName('product')!;
+                // function findExistingProductElement(variant: string): HTMLElement | null {
+                //     const existingElements = selectedProductsContainer?.getElementsByClassName('product')!;
 
+                //     for (const element of existingElements || []) {
+                //         const dataVariant = element.getAttribute('data-variant');
+                //         if (dataVariant === variant) {
+                //             return element as HTMLElement;
+                //         }
+                //     }
+                //     return null;
+                // }
+
+                //------------------------------------------------------------------------------
+
+
+                function findExistingProductElement(productName: string): HTMLElement | null {
+                    const existingElements = selectedProductsContainer?.getElementsByClassName('product')!;
+                
                     for (const element of existingElements || []) {
-                        const dataVariant = element.getAttribute('data-variant');
-                        if (dataVariant === variant) {
+                        const productNameInElement = element.getAttribute('data-product-name');
+                        if (productNameInElement === productName) {
                             return element as HTMLElement;
                         }
                     }
@@ -138,20 +153,24 @@ function mostraProdotto(): void {
 
 
 
+
+                //------------------------------------------------------------------------------
+
+
+
+                //bottone ADD per aggiungere prodotti
                 button.addEventListener('click', () => {
                     const selectedProductElement = document.createElement('div');
                     selectedProductElement.classList.add('product');
-
                     const selectedLabel = document.createElement('label');
                     const selectedVariant = variantSelect.value;
                     const selectedText = `${lineItem.product.name} - ${selectedVariant}`
                     //id dei prodotti inseriti
                     const pscounterClass = ` psclass-${productElement.id}`;
-
                     // selectedProductElement.classList.add(pscounterClass);
-                    
-
                     const existingProductElement = findExistingProductElement(selectedVariant);
+
+                   
 
                     if (existingProductElement) {
                         const existingQuantity = parseInt(existingProductElement.getAttribute('data-quantity') || '1', 10);
@@ -159,7 +178,6 @@ function mostraProdotto(): void {
                         existingProductElement.setAttribute('data-quantity', newQuantity.toString());
                         const label = existingProductElement.querySelector('label');
                         // label!.classList.add(pscounterClass);
-
                         if (label) {
 
                             //prodotti selezionati se ce ne sta più di uno
@@ -167,7 +185,7 @@ function mostraProdotto(): void {
                             label.textContent = `${selectedText} - Quantità: ${newQuantity} - ${Math.floor(tam)}$ - ${pscounterClass} `;
                             ordervuoto.totalAmount = tam
                             console.log(productElement.id);
-                            
+
                             ordervuoto.orderLineItems[parseInt(productElement.id)].quantity = newQuantity;
                             ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tam);
                         }
@@ -183,11 +201,8 @@ function mostraProdotto(): void {
                         selectedCross.classList.add('cross');
                         selectedCross.textContent = 'X';
                         selectedProductElement.appendChild(selectedCross);
-
-
                         ordervuoto.orderLineItems[parseInt(productElement.id)].quantity = currentQuantity;
-                            ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tcm);
-
+                        ordervuoto.orderLineItems[parseInt(productElement.id)].amount = Math.floor(tcm);
                         //rimuovi prodotto
                         selectedCross.onclick = () => {
                             selectedProductsContainer.removeChild(selectedProductElement);
@@ -200,10 +215,22 @@ function mostraProdotto(): void {
 
                     currentQuantity = 1;
                     quantityElement.textContent = `Quantità: ${Math.floor(currentQuantity)}`;
+
+
+                    //logica variant
+
+                    for (let index = 0; index < productsssstest.length; index++) {
+                        const v = document.querySelectorAll(`psclass-${index}`);
+
+                        v.forEach(element => {
+                            
+                            
+                        });
+                        
+                    }
+
                 });
-
                 productsContainer.appendChild(productElement);
-
             }
         } else {
             console.error('Nessun prodotto presente nella lista o mancano i container.');
